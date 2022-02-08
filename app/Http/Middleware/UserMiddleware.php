@@ -1,0 +1,23 @@
+<?php
+ 
+namespace App\Http\Middleware;
+ 
+use Closure;
+use Illuminate\Http\Request;
+use Auth;
+ 
+class UserMiddleware
+{
+    public function handle(Request $request, Closure $next)
+    {
+        if(Auth::user()->User_type != "u"){
+            /* 
+            silahkan modifikasi pada bagian ini
+            apa yang ingin kamu lakukan jika rolenya tidak sesuai
+            */
+            Auth::logout();
+            return redirect('/userLogin')->with('status','maaf anda admin, bukan user biasa');
+        }
+        return $next($request);
+    }
+}
